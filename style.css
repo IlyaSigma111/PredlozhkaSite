@@ -1,212 +1,560 @@
-/* Люксовый глассморфизм */
+/* ПРЕМИУМ ГЛАССМОРФИЗМ */
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    --glass-blur: blur(16px);
+    --primary-glow: rgba(147, 51, 234, 0.5);
+    --secondary-glow: rgba(79, 70, 229, 0.5);
+    --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
+    font-family: 'Inter', sans-serif;
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #0a0a0f;
     position: relative;
     overflow-x: hidden;
+    color: #fff;
 }
 
-/* анимированный градиентный фон */
-.gradient-bg {
+/* ШУМ (текстура для глубины) */
+.noise {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
-    z-index: -2;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4wNCIgLz48L3N2Zz4=');
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.15;
 }
 
-@keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* ГРАДИЕНТНЫЕ ОРБЫ */
+.gradient-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    animation: float 20s infinite ease-in-out;
 }
 
-/* стеклянный эффект */
-.glass-card, .glass-header, .glass-input, .glass-button {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+.orb1 {
+    width: 500px;
+    height: 500px;
+    background: rgba(147, 51, 234, 0.3);
+    top: -100px;
+    left: -100px;
+    animation-delay: 0s;
 }
 
+.orb2 {
+    width: 600px;
+    height: 600px;
+    background: rgba(79, 70, 229, 0.25);
+    bottom: -200px;
+    right: -100px;
+    animation-delay: -5s;
+}
+
+.orb3 {
+    width: 400px;
+    height: 400px;
+    background: rgba(236, 72, 153, 0.2);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: -10s;
+}
+
+.orb4 {
+    width: 300px;
+    height: 300px;
+    background: rgba(6, 182, 212, 0.2);
+    bottom: 10%;
+    left: 10%;
+    animation-delay: -15s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+/* КОНТЕЙНЕР */
 .container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     position: relative;
-    z-index: 1;
+    z-index: 10;
 }
 
-/* шапка */
-.glass-header {
-    padding: 30px 20px;
-    margin-bottom: 30px;
-    text-align: center;
+/* ПРЕМИУМ ГЛАСС */
+.premium-glass {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 32px;
+    box-shadow: var(--glass-shadow), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
     position: relative;
     overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* ротатор мемов */
-.meme-rotator {
+.premium-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transition: left 0.5s ease;
+}
+
+.premium-glass:hover::before {
+    left: 100%;
+}
+
+.premium-glass:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+/* ХЕДЕР */
+.header {
+    padding: 40px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.meme-showcase {
+    margin-bottom: 30px;
+}
+
+.meme-grid {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.meme-thumb {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: grayscale(0.5);
+}
+
+.meme-thumb:hover {
+    transform: scale(1.1) rotate(5deg);
+    border-color: rgba(255, 255, 255, 0.5);
+    filter: grayscale(0);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ГЛИТЧ-ЭФФЕКТ */
+.glitch-title {
+    font-size: clamp(3rem, 15vw, 6rem);
+    font-weight: 800;
+    color: white;
+    text-shadow: 
+        0.05em 0 0 rgba(255, 0, 0, 0.75),
+        -0.05em -0.025em 0 rgba(0, 255, 255, 0.75),
+        0.025em 0.05em 0 rgba(0, 255, 0, 0.75);
+    animation: glitch 6s infinite;
+    position: relative;
+    letter-spacing: 0.15em;
+    margin-bottom: 20px;
+}
+
+.glitch-title::before,
+.glitch-title::after {
+    content: attr(data-text);
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
-    opacity: 0.2;
 }
 
-.meme-slide {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 15px;
-    opacity: 0;
-    transform: scale(0.8);
-    transition: all 1s ease;
+.glitch-title::before {
+    animation: glitchTop 0.3s infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
 }
 
-.meme-slide.active {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* рандомные позиции для мемов */
-.meme-slide:nth-child(1) { top: 10%; left: 5%; }
-.meme-slide:nth-child(2) { bottom: 10%; right: 5%; }
-.meme-slide:nth-child(3) { top: 20%; right: 15%; }
-.meme-slide:nth-child(4) { bottom: 20%; left: 15%; }
-
-.glitch-title {
-    font-size: 4rem;
-    font-weight: 900;
-    color: white;
-    text-shadow: 0 0 10px rgba(255,255,255,0.5);
-    letter-spacing: 5px;
-    animation: glitch 3s infinite;
+.glitch-title::after {
+    animation: glitchBottom 0.3s infinite;
+    clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
 }
 
 @keyframes glitch {
-    0%, 100% { transform: skew(0deg, 0deg); opacity: 1; }
-    95% { transform: skew(5deg, -2deg); opacity: 0.8; }
-    96% { transform: skew(-5deg, 2deg); }
-    97% { transform: skew(3deg, -1deg); }
+    0%, 100% { transform: none; opacity: 1; }
+    7% { transform: skew(-0.5deg, -0.9deg); opacity: 0.75; }
+    10% { transform: none; opacity: 1; }
+    27% { transform: none; opacity: 1; }
+    30% { transform: skew(0.8deg, -0.1deg); opacity: 0.75; }
+    35% { transform: none; opacity: 1; }
+    52% { transform: none; opacity: 1; }
+    55% { transform: skew(-1deg, 0.2deg); opacity: 0.75; }
+    60% { transform: none; opacity: 1; }
+    72% { transform: none; opacity: 1; }
+    75% { transform: skew(0.4deg, 1deg); opacity: 0.75; }
+    80% { transform: none; opacity: 1; }
 }
 
-.subtitle {
-    color: rgba(255,255,255,0.9);
-    font-size: 1.2rem;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+@keyframes glitchTop {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, -2px); }
+    40% { transform: translate(-2px, 2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
 }
 
-/* форма */
-.idea-form {
-    padding: 30px;
+@keyframes glitchBottom {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(2px, 2px); }
+    40% { transform: translate(2px, -2px); }
+    60% { transform: translate(-2px, -2px); }
+    80% { transform: translate(-2px, 2px); }
+}
+
+.title-decoration {
+    width: 150px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    margin: 20px auto;
+}
+
+.premium-subtitle {
+    font-size: 1rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
     margin-bottom: 30px;
+}
+
+/* СТАТИСТИКА */
+.stats-glass {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+    border-radius: 50px;
+    padding: 15px 30px;
+    width: fit-content;
+    margin: 0 auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-item {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    align-items: center;
 }
 
-.glass-input {
+.stat-item i {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.stat-divider {
+    width: 1px;
+    height: 40px;
     background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 15px 20px;
-    color: white;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+}
+
+/* ФОРМА */
+.form-container {
+    padding: 40px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.form-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 0%, rgba(147, 51, 234, 0.2), transparent 70%);
+    pointer-events: none;
 }
 
-.glass-input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+.form-title {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.9);
 }
 
-.glass-input:focus {
+.form-title i {
+    color: #8b5cf6;
+}
+
+.input-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+    z-index: 1;
+}
+
+textarea ~ .input-icon {
+    top: 25px;
+    transform: none;
+}
+
+.premium-input {
+    width: 100%;
+    padding: 18px 20px 18px 50px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    font-size: 1rem;
+    color: white;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.premium-input:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    border-color: rgba(147, 51, 234, 0.5);
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 30px rgba(147, 51, 234, 0.2);
 }
 
-textarea.glass-input {
-    resize: none;
-    min-height: 80px;
+.premium-input:focus + .input-icon {
+    color: #8b5cf6;
 }
 
-.glass-button {
-    background: rgba(255, 255, 255, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    padding: 15px 30px;
+textarea.premium-input {
+    resize: vertical;
+    min-height: 100px;
+    padding-top: 25px;
+}
+
+.char-counter {
+    text-align: right;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+/* ПРЕМИУМ КНОПКА */
+.premium-button {
+    position: relative;
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 20px;
     color: white;
     font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
+    overflow: hidden;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    border-radius: 50px;
 }
 
-.glass-button:hover {
-    background: rgba(255, 255, 255, 0.4);
+.premium-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.premium-button:hover::before {
+    left: 100%;
+}
+
+.premium-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    box-shadow: 0 20px 40px -10px #667eea;
 }
 
-.glass-button:active {
+.premium-button:active {
     transform: translateY(0);
 }
 
-/* лента идей */
+.button-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.3), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.premium-button:hover .button-glow {
+    opacity: 1;
+}
+
+/* ФИЛЬТРЫ */
+.filters {
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 40px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-btn i {
+    font-size: 1rem;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 10px 20px -5px rgba(102, 126, 234, 0.5);
+}
+
+/* ЛЕНТА ИДЕЙ */
 .ideas-feed {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
+/* КАРТОЧКА ИДЕИ */
 .idea-card {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px;
-    padding: 20px;
-    color: white;
-    animation: slideIn 0.5s ease;
-    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    padding: 25px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: cardAppear 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.idea-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.1), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.idea-card:hover::before {
+    opacity: 1;
 }
 
 .idea-card:hover {
-    transform: translateX(10px);
-    background: rgba(255, 255, 255, 0.25);
+    transform: translateX(10px) scale(1.02);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.5);
 }
 
-@keyframes slideIn {
+.idea-card.new {
+    animation: pulse 2s infinite, cardAppear 0.5s ease;
+}
+
+@keyframes cardAppear {
     from {
         opacity: 0;
-        transform: translateY(50px);
+        transform: translateY(50px) scale(0.9);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 20px rgba(147, 51, 234, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(147, 51, 234, 0);
     }
 }
 
@@ -214,125 +562,244 @@ textarea.glass-input {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .idea-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.author-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: white;
+}
+
+.author-name {
     font-weight: 600;
-    font-size: 1.1rem;
     color: rgba(255, 255, 255, 0.9);
 }
 
 .idea-time {
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .idea-text {
     font-size: 1.1rem;
-    line-height: 1.5;
-    margin-bottom: 15px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.9);
     word-break: break-word;
 }
 
 .idea-actions {
     display: flex;
-    gap: 15px;
+    gap: 12px;
 }
 
 .like-btn, .dislike-btn {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 8px 20px;
-    border-radius: 30px;
-    color: white;
+    padding: 10px 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 40px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.95rem;
+    flex: 1;
+    justify-content: center;
 }
 
 .like-btn:hover {
-    background: rgba(46, 204, 113, 0.3);
-    border-color: #2ecc71;
+    background: rgba(34, 197, 94, 0.15);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #4ade80;
+    transform: translateY(-2px);
 }
 
 .dislike-btn:hover {
-    background: rgba(231, 76, 60, 0.3);
-    border-color: #e74c3c;
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #f87171;
+    transform: translateY(-2px);
 }
 
 .like-btn i, .dislike-btn i {
-    font-size: 1.1rem;
-}
-
-.loading {
-    text-align: center;
-    color: white;
     font-size: 1.2rem;
-    padding: 40px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(5px);
-    border-radius: 20px;
 }
 
-/* адаптация для телефонов */
-@media (max-width: 600px) {
+/* ЗАГРУЗЧИК */
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(8px);
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    gap: 20px;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: #8b5cf6;
+    border-radius: 50%;
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* АДАПТАЦИЯ */
+@media (max-width: 768px) {
     .container {
         padding: 10px;
     }
     
+    .header {
+        padding: 30px 20px;
+    }
+    
+    .meme-thumb {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .stats-glass {
+        gap: 20px;
+        padding: 10px 20px;
+    }
+    
+    .stat-value {
+        font-size: 1.4rem;
+    }
+    
+    .form-container {
+        padding: 30px 20px;
+    }
+    
+    .premium-input {
+        padding: 15px 15px 15px 45px;
+    }
+    
+    .idea-actions {
+        flex-direction: column;
+    }
+    
+    .filter-buttons {
+        flex-direction: column;
+    }
+    
+    .filter-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
     .glitch-title {
         font-size: 2.5rem;
     }
     
-    .glass-header {
-        padding: 20px 15px;
+    .premium-subtitle {
+        letter-spacing: 0.2em;
     }
     
-    .idea-form {
-        padding: 20px;
+    .stats-glass {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
     }
     
-    .meme-slide {
+    .stat-divider {
+        width: 80%;
+        height: 1px;
+    }
+    
+    .meme-grid {
+        gap: 8px;
+    }
+    
+    .meme-thumb {
         width: 50px;
         height: 50px;
-    }
-    
-    .idea-actions {
-        flex-wrap: wrap;
-    }
-    
-    .like-btn, .dislike-btn {
-        padding: 6px 15px;
-        font-size: 0.9rem;
-    }
-}
-
-/* для очень маленьких экранов */
-@media (max-width: 380px) {
-    .glitch-title {
-        font-size: 2rem;
     }
     
     .idea-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 5px;
+        gap: 10px;
     }
 }
 
-/* эффект пульсации для новой идеи */
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.7); }
-    70% { box-shadow: 0 0 0 15px rgba(255,255,255,0); }
-    100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+@media (max-width: 360px) {
+    .meme-thumb {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .form-title {
+        font-size: 1.4rem;
+    }
+    
+    .premium-button {
+        font-size: 1rem;
+        padding: 15px;
+    }
 }
 
-.idea-card.new {
-    animation: pulse 1.5s ease, slideIn 0.5s ease;
+/* ДОПОЛНИТЕЛЬНЫЕ ЭФФЕКТЫ */
+.glass-reflection {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* СКРОЛЛБАР */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+::selection {
+    background: rgba(147, 51, 234, 0.3);
+    color: white;
 }
