@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>ПРЕДЛОЖКА · премиум гласс</title>
+    <title>ПРЕДЛОЖКА · премиум</title>
     
-    <!-- Фавиконка -->
+    <!-- Фавиконка (только здесь остаётся) -->
     <link rel="icon" type="image/jpeg" href="https://i.ibb.co/Df7WSXwz/ca57560db17f7df097523633f5ee664a.jpg">
     
-    <!-- Font Awesome 6 (иконки) -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
-    <!-- Google Fonts для люксовых шрифтов -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Подключаем Firebase через CDN (ВАЖНО: так работает без ошибок) -->
+    <!-- Firebase CDN -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     
-    <!-- Наш конфиг Firebase -->
+    <!-- Наш конфиг -->
     <script src="firebase-config.js"></script>
     
-    <!-- Наши стили -->
+    <!-- Стили -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Премиум градиентный фон с шумами -->
+    <!-- Премиум фон -->
     <div class="noise"></div>
     <div class="gradient-orb orb1"></div>
     <div class="gradient-orb orb2"></div>
@@ -33,19 +33,13 @@
     <div class="gradient-orb orb4"></div>
     
     <div class="container">
-        <!-- Хедер с глубоким глассом и мемами -->
+        <!-- Хедер (без мемов) -->
         <header class="premium-glass header">
-            <div class="meme-showcase">
-                <div class="meme-grid">
-                    <img src="https://i.ibb.co/Df7WSXwz/ca57560db17f7df097523633f5ee664a.jpg" alt="meme" class="meme-thumb">
-                    <img src="https://i.ibb.co/9mNR8h67/50afee4de6d123eb7785c71a21b38d76.jpg" alt="meme" class="meme-thumb">
-                    <img src="https://i.ibb.co/Wqr422g/IMG-20260115-094254-1.png" alt="meme" class="meme-thumb">
-                    <img src="https://i.ibb.co/zVGdFCv5/9qy1w-N7e9w-Vf-YHh-U.png" alt="meme" class="meme-thumb">
-                </div>
-            </div>
             <h1 class="glitch-title" data-text="ПРЕДЛОЖКА">ПРЕДЛОЖКА</h1>
             <div class="title-decoration"></div>
             <p class="premium-subtitle">REALTIME · GLASS · PREMIUM</p>
+            
+            <!-- Реальная статистика из Firebase -->
             <div class="stats-glass">
                 <div class="stat-item">
                     <i class="fas fa-users"></i>
@@ -58,10 +52,16 @@
                     <span class="stat-value" id="totalIdeas">0</span>
                     <span class="stat-label">всего идей</span>
                 </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <i class="fas fa-heart"></i>
+                    <span class="stat-value" id="totalLikes">0</span>
+                    <span class="stat-label">лайков</span>
+                </div>
             </div>
         </header>
 
-        <!-- Форма для идей (премиум гласс) -->
+        <!-- Форма -->
         <div class="premium-glass form-container">
             <div class="form-glow"></div>
             <h2 class="form-title">
@@ -80,37 +80,37 @@
                 <span id="charCount">0</span>/300
             </div>
             <button id="submitBtn" class="premium-button">
-            <i class="fas fa-paper-plane"></i>
-            <span>Отправить идею</span>
-            <div class="button-glow"></div>
-        </button>
-    </div>
+                <i class="fas fa-paper-plane"></i>
+                <span>Отправить идею</span>
+                <div class="button-glow"></div>
+            </button>
+        </div>
 
-    <!-- Фильтры для ленты -->
-    <div class="premium-glass filters">
-        <div class="filter-buttons">
-            <button class="filter-btn active" data-filter="new">
-                <i class="fas fa-clock"></i> Новые
-            </button>
-            <button class="filter-btn" data-filter="top">
-                <i class="fas fa-fire"></i> Топ
-            </button>
-            <button class="filter-btn" data-filter="day">
-                <i class="fas fa-sun"></i> Дня
-            </button>
+        <!-- Фильтры -->
+        <div class="premium-glass filters">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="new">
+                    <i class="fas fa-clock"></i> Новые
+                </button>
+                <button class="filter-btn" data-filter="top">
+                    <i class="fas fa-fire"></i> Топ
+                </button>
+                <button class="filter-btn" data-filter="day">
+                    <i class="fas fa-sun"></i> Дня
+                </button>
+            </div>
+        </div>
+
+        <!-- Лента идей -->
+        <div class="ideas-feed" id="ideasFeed">
+            <div class="loading">
+                <div class="loader"></div>
+                <span>Загружаем идеи...</span>
+            </div>
         </div>
     </div>
 
-    <!-- Лента идей -->
-    <div class="ideas-feed" id="ideasFeed">
-        <div class="loading">
-            <div class="loader"></div>
-            <span>Загружаем идеи...</span>
-        </div>
-    </div>
-</div>
-
-<!-- Скрипт -->
-<script src="script.js"></script>
+    <!-- Скрипт -->
+    <script src="script.js"></script>
 </body>
 </html>
