@@ -1,7 +1,4 @@
-// Firebase конфигурация - твои данные
-import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
-
+// Firebase конфигурация - для CDN подключения
 const firebaseConfig = {
   apiKey: "AIzaSyCMDSrRdyHBcdt3ZIHoD15626yAnsJ1ekM",
   authDomain: "predlozhkasite.firebaseapp.com",
@@ -12,8 +9,6 @@ const firebaseConfig = {
   appId: "1:644835235198:web:f82ac87d9831df90eb0f2f"
 };
 
-// Инициализация
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-
-export { database };
+// Инициализация Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
