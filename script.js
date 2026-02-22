@@ -1,7 +1,7 @@
 // Состояние
 let currentFilter = 'new';
 let ideasData = {};
-let onlineUsers = {};
+let userVotes = JSON.parse(localStorage.getItem('predlozhka_votes')) || {};
 
 // Firebase ссылки
 const ideasRef = database.ref('ideas');
@@ -27,28 +27,24 @@ document.addEventListener('DOMContentLoaded', () => {
     initEnterSubmit();
 });
 
-// Онлайн-трекинг (реальный)
+// Онлайн-трекинг
 function initOnlineTracking() {
     const userRef = onlineRef.push();
     
-    // Добавляем себя
     userRef.set({
         online: true,
         timestamp: firebase.database.ServerValue.TIMESTAMP
     });
     
-    // Удаляем при закрытии
     window.addEventListener('beforeunload', () => {
         userRef.remove();
     });
     
-    // Слушаем изменения
     onlineRef.on('value', (snapshot) => {
-        const count = snapshot.numChildren();
-        onlineCount.textContent = count;
+        onlineCount.textContent = snapshot.numChildren();
     });
     
-    // Чистим старые записи (старше 30 секунд)
+    // Чистим старые записи
     setInterval(() => {
         const now = Date.now();
         onlineRef.once('value', (snapshot) => {
@@ -125,18 +121,44 @@ async function submitIdea() {
     charCount.textContent = '0';
 }
 
-// Обработка лайков
-function handleVote(e) {
+// Обработка лайков с защитой
+async function handleVote(e) {
     const target = e.target.closest('button');
     if (!target) return;
     
     const ideaId = target.dataset.id;
-    const type = target.dataset.type;
+    const type = target.dataset.type; // 'likes' или 'dislikes'
     
     if (!ideaId || !type) return;
     
+    // Проверяем, голосовал ли уже
+    if (userVotes[ideaId]) {
+        alert('Ты уже голосовал за эту идею!');
+        return;
+    }
+    
     const ideaRef = database.ref(`ideas/${ideaId}/${type}`);
-    ideaRef.transaction((current) => (current || 0) + 1);
+    
+    try {
+        // Атомарно увеличиваем счетчик
+        await ideaRef.transaction((current) => (current || 0) + 1);
+        
+        // Запоминаем голос
+        userVotes[ideaId] = type;
+        localStorage.setItem('predlozhka_votes', JSON.stringify(userVotes));
+        
+        // Визуальный фидбек
+        target.classList.add('voted');
+        
+        // Дизейблим обе кнопки у этой идеи
+        const card = target.closest('.idea-card');
+        if (card) {
+            const buttons = card.querySelectorAll('.like-btn, .dislike-btn');
+            buttons.forEach(btn => btn.disabled = true);
+        }
+    } catch (error) {
+        console.error('Ошибка голосования:', error);
+    }
 }
 
 // Форматирование времени
@@ -185,35 +207,46 @@ function renderIdeas() {
     if (ideas.length === 0) {
         ideasFeed.innerHTML = `
             <div class="loading">
-                <i class="fas fa-lightbulb" style="font-size: 2rem; opacity: 0.3;"></i>
+                <i class="fas fa-lightbulb" style="font-size: 2rem; opacity: 0.2;"></i>
                 <span>Пока нет идей. Будь первым!</span>
             </div>
         `;
         return;
     }
     
-    ideasFeed.innerHTML = ideas.map(idea => `
-        <div class="idea-card" data-id="${idea.id}">
-            <div class="idea-header">
-                <div class="idea-author">
-                    <div class="author-avatar">${(idea.name || 'А').charAt(0)}</div>
-                    <span class="author-name">${idea.name || 'Аноним'}</span>
+    ideasFeed.innerHTML = ideas.map(idea => {
+        const hasVoted = !!userVotes[idea.id];
+        const voteType = userVotes[idea.id];
+        
+        return `
+            <div class="idea-card" data-id="${idea.id}">
+                <div class="idea-header">
+                    <div class="idea-author">
+                        <div class="author-avatar">${(idea.name || 'А').charAt(0)}</div>
+                        <span class="author-name">${idea.name || 'Аноним'}</span>
+                    </div>
+                    <span class="idea-time">
+                        <i class="far fa-clock"></i> ${formatTime(idea.timestamp)}
+                    </span>
                 </div>
-                <span class="idea-time">
-                    <i class="far fa-clock"></i> ${formatTime(idea.timestamp)}
-                </span>
+                <div class="idea-text">${idea.text.replace(/\n/g, '<br>')}</div>
+                <div class="idea-actions">
+                    <button class="like-btn ${voteType === 'likes' ? 'voted' : ''}" 
+                            data-id="${idea.id}" 
+                            data-type="likes"
+                            ${hasVoted ? 'disabled' : ''}>
+                        <i class="fas fa-thumbs-up"></i> ${idea.likes || 0}
+                    </button>
+                    <button class="dislike-btn ${voteType === 'dislikes' ? 'voted' : ''}" 
+                            data-id="${idea.id}" 
+                            data-type="dislikes"
+                            ${hasVoted ? 'disabled' : ''}>
+                        <i class="fas fa-thumbs-down"></i> ${idea.dislikes || 0}
+                    </button>
+                </div>
             </div>
-            <div class="idea-text">${idea.text.replace(/\n/g, '<br>')}</div>
-            <div class="idea-actions">
-                <button class="like-btn" data-id="${idea.id}" data-type="likes">
-                    <i class="fas fa-thumbs-up"></i> ${idea.likes || 0}
-                </button>
-                <button class="dislike-btn" data-id="${idea.id}" data-type="dislikes">
-                    <i class="fas fa-thumbs-down"></i> ${idea.dislikes || 0}
-                </button>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 // Enter для отправки
