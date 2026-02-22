@@ -3,53 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>ПРЕДЛОЖКА · люксовая</title>
+    <title>ПРЕДЛОЖКА · премиум гласс</title>
     
-    <!-- 🔥 ФАВИКОНКА (первая ссылка с ibb) -->
+    <!-- Фавиконка -->
     <link rel="icon" type="image/jpeg" href="https://i.ibb.co/Df7WSXwz/ca57560db17f7df097523633f5ee664a.jpg">
-    <link rel="apple-touch-icon" href="https://i.ibb.co/Df7WSXwz/ca57560db17f7df097523633f5ee664a.jpg">
     
-    <!-- стили -->
-    <link rel="stylesheet" href="style.css">
-    
-    <!-- Font Awesome для иконок -->
+    <!-- Font Awesome 6 (иконки) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts для люксовых шрифтов -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Подключаем Firebase через CDN (ВАЖНО: так работает без ошибок) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <!-- Наш конфиг Firebase -->
+    <script src="firebase-config.js"></script>
+    
+    <!-- Наши стили -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- стеклянный фон с анимацией -->
-    <div class="gradient-bg"></div>
+    <!-- Премиум градиентный фон с шумами -->
+    <div class="noise"></div>
+    <div class="gradient-orb orb1"></div>
+    <div class="gradient-orb orb2"></div>
+    <div class="gradient-orb orb3"></div>
+    <div class="gradient-orb orb4"></div>
     
     <div class="container">
-        <!-- шапка с мемами (глассморфизм) -->
-        <header class="glass-header">
-            <div class="meme-rotator">
-                <img src="https://i.ibb.co/Df7WSXwz/ca57560db17f7df097523633f5ee664a.jpg" alt="мем" class="meme-slide active">
-                <img src="https://i.ibb.co/9mNR8h67/50afee4de6d123eb7785c71a21b38d76.jpg" alt="мем" class="meme-slide">
-                <img src="https://i.ibb.co/Wqr422g/IMG-20260115-094254-1.png" alt="мем" class="meme-slide">
-                <img src="https://i.ibb.co/zVGdFCv5/9qy1w-N7e9w-Vf-YHh-U.png" alt="мем" class="meme-slide">
+        <!-- Хедер с глубоким глассом и мемами -->
+        <header class="premium-glass header">
+            <div class="meme-showcase">
+                <div class="meme-grid">
+                    <img src="https://i.ibb.co/Df7WSXwz/ca57560db17f7df097523633f5ee664a.jpg" alt="meme" class="meme-thumb">
+                    <img src="https://i.ibb.co/9mNR8h67/50afee4de6d123eb7785c71a21b38d76.jpg" alt="meme" class="meme-thumb">
+                    <img src="https://i.ibb.co/Wqr422g/IMG-20260115-094254-1.png" alt="meme" class="meme-thumb">
+                    <img src="https://i.ibb.co/zVGdFCv5/9qy1w-N7e9w-Vf-YHh-U.png" alt="meme" class="meme-thumb">
+                </div>
             </div>
-            <h1 class="glitch-title">ПРЕДЛОЖКА</h1>
-            <p class="subtitle">кидай идею — она сразу в realtime</p>
+            <h1 class="glitch-title" data-text="ПРЕДЛОЖКА">ПРЕДЛОЖКА</h1>
+            <div class="title-decoration"></div>
+            <p class="premium-subtitle">REALTIME · GLASS · PREMIUM</p>
+            <div class="stats-glass">
+                <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <span class="stat-value" id="onlineCount">0</span>
+                    <span class="stat-label">сейчас здесь</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <i class="fas fa-lightbulb"></i>
+                    <span class="stat-value" id="totalIdeas">0</span>
+                    <span class="stat-label">всего идей</span>
+                </div>
+            </div>
         </header>
 
-        <!-- форма для идеи -->
-        <div class="idea-form glass-card">
-            <input type="text" id="nameInput" placeholder="твой ник (или Аноним)" class="glass-input" maxlength="30">
-            <textarea id="ideaInput" placeholder="твоя гениальная идея..." class="glass-input" rows="2" maxlength="200"></textarea>
-            <button id="submitBtn" class="glass-button">
-                <i class="fas fa-paper-plane"></i> Кинуть идею
-            </button>
-        </div>
+        <!-- Форма для идей (премиум гласс) -->
+        <div class="premium-glass form-container">
+            <div class="form-glow"></div>
+            <h2 class="form-title">
+                <i class="fas fa-pen-fancy"></i>
+                Новая идея
+            </h2>
+            <div class="input-wrapper">
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" id="nameInput" placeholder="Твой ник (или Аноним)" class="premium-input" maxlength="30">
+            </div>
+            <div class="input-wrapper">
+                <i class="fas fa-lightbulb input-icon"></i>
+                <textarea id="ideaInput" placeholder="Что придумал?" class="premium-input" rows="3" maxlength="300"></textarea>
+            </div>
+            <div class="char-counter">
+                <span id="charCount">0</span>/300
+            </div>
+            <button id="submitBtn" class="premium-button">
+            <i class="fas fa-paper-plane"></i>
+            <span>Отправить идею</span>
+            <div class="button-glow"></div>
+        </button>
+    </div>
 
-        <!-- лента идей -->
-        <div class="ideas-feed" id="ideasFeed">
-            <!-- сюда будут грузиться идеи из Firebase -->
-            <div class="loading">загружаем идеи...</div>
+    <!-- Фильтры для ленты -->
+    <div class="premium-glass filters">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="new">
+                <i class="fas fa-clock"></i> Новые
+            </button>
+            <button class="filter-btn" data-filter="top">
+                <i class="fas fa-fire"></i> Топ
+            </button>
+            <button class="filter-btn" data-filter="day">
+                <i class="fas fa-sun"></i> Дня
+            </button>
         </div>
     </div>
 
-    <!-- подключаем скрипты (type="module" чтобы работал import/export) -->
-    <script type="module" src="firebase-config.js"></script>
-    <script type="module" src="script.js"></script>
+    <!-- Лента идей -->
+    <div class="ideas-feed" id="ideasFeed">
+        <div class="loading">
+            <div class="loader"></div>
+            <span>Загружаем идеи...</span>
+        </div>
+    </div>
+</div>
+
+<!-- Скрипт -->
+<script src="script.js"></script>
 </body>
 </html>
