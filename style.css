@@ -1,0 +1,338 @@
+/* Люксовый глассморфизм */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* анимированный градиентный фон */
+.gradient-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    z-index: -2;
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* стеклянный эффект */
+.glass-card, .glass-header, .glass-input, .glass-button {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* шапка */
+.glass-header {
+    padding: 30px 20px;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ротатор мемов */
+.meme-rotator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.2;
+}
+
+.meme-slide {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 15px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 1s ease;
+}
+
+.meme-slide.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* рандомные позиции для мемов */
+.meme-slide:nth-child(1) { top: 10%; left: 5%; }
+.meme-slide:nth-child(2) { bottom: 10%; right: 5%; }
+.meme-slide:nth-child(3) { top: 20%; right: 15%; }
+.meme-slide:nth-child(4) { bottom: 20%; left: 15%; }
+
+.glitch-title {
+    font-size: 4rem;
+    font-weight: 900;
+    color: white;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    letter-spacing: 5px;
+    animation: glitch 3s infinite;
+}
+
+@keyframes glitch {
+    0%, 100% { transform: skew(0deg, 0deg); opacity: 1; }
+    95% { transform: skew(5deg, -2deg); opacity: 0.8; }
+    96% { transform: skew(-5deg, 2deg); }
+    97% { transform: skew(3deg, -1deg); }
+}
+
+.subtitle {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.2rem;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* форма */
+.idea-form {
+    padding: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.glass-input {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 15px 20px;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.glass-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.glass-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+}
+
+textarea.glass-input {
+    resize: none;
+    min-height: 80px;
+}
+
+.glass-button {
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 15px 30px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 50px;
+}
+
+.glass-button:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.glass-button:active {
+    transform: translateY(0);
+}
+
+/* лента идей */
+.ideas-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.idea-card {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 20px;
+    color: white;
+    animation: slideIn 0.5s ease;
+    transition: all 0.3s ease;
+}
+
+.idea-card:hover {
+    transform: translateX(10px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.idea-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.idea-author {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.idea-time {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.idea-text {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    word-break: break-word;
+}
+
+.idea-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.like-btn, .dislike-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 20px;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+}
+
+.like-btn:hover {
+    background: rgba(46, 204, 113, 0.3);
+    border-color: #2ecc71;
+}
+
+.dislike-btn:hover {
+    background: rgba(231, 76, 60, 0.3);
+    border-color: #e74c3c;
+}
+
+.like-btn i, .dislike-btn i {
+    font-size: 1.1rem;
+}
+
+.loading {
+    text-align: center;
+    color: white;
+    font-size: 1.2rem;
+    padding: 40px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+}
+
+/* адаптация для телефонов */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .glitch-title {
+        font-size: 2.5rem;
+    }
+    
+    .glass-header {
+        padding: 20px 15px;
+    }
+    
+    .idea-form {
+        padding: 20px;
+    }
+    
+    .meme-slide {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .idea-actions {
+        flex-wrap: wrap;
+    }
+    
+    .like-btn, .dislike-btn {
+        padding: 6px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+/* для очень маленьких экранов */
+@media (max-width: 380px) {
+    .glitch-title {
+        font-size: 2rem;
+    }
+    
+    .idea-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}
+
+/* эффект пульсации для новой идеи */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(255,255,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+}
+
+.idea-card.new {
+    animation: pulse 1.5s ease, slideIn 0.5s ease;
+}
